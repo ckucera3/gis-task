@@ -22,7 +22,7 @@ app.EndPointGraph = (function() {
 			top: (0.05) * model.m.graphHeight,
 			bottom: (0.1) * model.m.graphHeight
 
-		}
+		};
 
 		//create svg
 		model.svg = model.base.append("svg")
@@ -55,46 +55,39 @@ app.EndPointGraph = (function() {
 	var updateYear = function(model, year) {
 
 		var yearObject = model.data.yearMap[year];
-		topFiveCountries = ["Germany", "Netherlands", "United Kingdom", "Sweden", "Denmark"];
 		model.m.barHeight = (parseInt(model.bgRect.attr("height")) / yearObject.length) / 2;
 		model.m.spacing = model.m.barHeight / 2;
 		model.m.interBarHeight = model.m.barHeight / 5;
 		model.m.interBarSpacing = model.m.barHeight / 4;
 		//data join
 		model.barGs = model.barsGroup.selectAll(".bar-group").data(yearObject);
-		//model.barGs.data([]);
-		//model.barGs.data(yearObject);
-		// console.log(yearObject);
-		// console.log(model.barGs.data());
 		//enter
 		model.barGsEnter = model.barGs.enter().append("g")
 		.attr("class", "bar-group")
 		;
 
 		//data join
-		topFiveCountries.forEach(function(d, i) {
+		model.data.topFiveCountries.forEach(function(d, i) {
 			classString = ".bar-" + i;
 			model.bars[i] = model.barsGroup.selectAll(classString).data(yearObject);
 		});
 
 		//update
-		topFiveCountries.forEach(function(d, i) {
+		model.data.topFiveCountries.forEach(function(d, i) {
 			classString = ".bar-" + i;
 			model.barsUpdate[i] = model.bars[i]
 			.attr("height", model.m.interBarHeight)
 			.attr("x", model.m.margins.left + 1)
+			.attr("fill", model.scales.colors(i))
+			.transition().duration(1000)
 			.attr("y", function(d) {
 				return model.scales.y(d.key) + model.m.margins.top + model.m.interBarSpacing * i;
 			})
-			.attr("fill", model.scales.colors(i))
-			.transition().duration(1000)
 			.attr("width", function(d) {
-				//console.log(i + ": " + d.values[topFiveCountries[i]]);
-				var val = d.values[topFiveCountries[i]];
+				var val = d.values[model.data.topFiveCountries[i]];
 				if (!val) {
 					val = 0;
 				}
-				//console.log(val);
 				return model.scales.x(val) + 1;
 			})
 			.attr("stroke", "none")
@@ -102,7 +95,7 @@ app.EndPointGraph = (function() {
 		});
 
 		//enter
-		topFiveCountries.forEach(function(d, i) {
+		model.data.topFiveCountries.forEach(function(d, i) {
 			classString = "bar-" + i;
 			model.barsEnter[i] = model.bars[i].enter()
 			.append("rect").attr("class", classString)
@@ -114,8 +107,7 @@ app.EndPointGraph = (function() {
 			.attr("fill", model.scales.colors(i))
 			.transition().duration(1000)
 			.attr("width", function(d) {
-				//console.log(i + ": " + d.values[topFiveCountries[i]]);
-				var val = d.values[topFiveCountries[i]];
+				var val = d.values[model.data.topFiveCountries[i]];
 				if (!val) {
 					val = 0;
 				}
@@ -126,7 +118,7 @@ app.EndPointGraph = (function() {
 		});
 
 		//remove
-		topFiveCountries.forEach(function(d, i) {
+		model.data.topFiveCountries.forEach(function(d, i) {
 			model.bars[i].exit().remove();
 		});
 
@@ -186,7 +178,6 @@ app.EndPointGraph = (function() {
 				var obj = {};
 				obj.key = d.key;
 				obj.values = {};
-				//console.log(d);
 				obj.values[d.key] = d.values;
 				d.values.forEach(function(d) {
 					obj.values[d.key] = d.values;
@@ -197,11 +188,39 @@ app.EndPointGraph = (function() {
 
 		});
 		model.data.yearMap = yearMap;
-
-		console.log(model.data.totals);
+		model.data.topFiveCountries = ["Germany", "Netherlands", "United Kingdom",
+		 "Sweden", "Denmark"];
 
 		createScalesAndAxes(model);
 		updateYear(model, '2005');
+
+		var legendRectSize = 18;
+		var legendSpacing = 4;
+
+		var legend = model.group.selectAll('.legend')
+		  .data(model.data.topFiveCountries)
+		  .enter()
+		  .append('g')
+		  .attr('class', 'legend')
+		  .attr('transform', function(d, i) {
+		    return 'translate(' + (model.m.graphWidth - model.m.margins.left
+		    	- (model.m.margins.right * 2)) + ',' + (model.m.margins.top * (i+1) + model.m.graphHeight * 0.5) + ')';
+		  });
+
+		legend.append('rect')
+		  .attr('width', legendRectSize - legendSpacing)
+		  .attr('height', legendRectSize - legendSpacing)
+		  .style('fill', function(d,i) {
+		  	return model.scales.colors(i);
+		  })
+		  .style('stroke', function(d,i) {
+		  	return model.scales.colors(i);
+		  });
+
+		legend.append('text')
+		  .attr('x', legendRectSize + legendSpacing)
+		  .attr('y', legendRectSize - legendSpacing)
+		  .text(function(d) { return d; });
 
 	}
 

@@ -58,7 +58,7 @@ app.CumulativeGraph = (function() {
 		//data join
 		model.bars = model.barsGroup.selectAll("rect").data(model.data.yearMap[year]);
 		//enter
-		model.barsEnter = model.bars.enter().append("rect")
+		model.barsEnter = model.bars.enter().append("rect").attr("class", "bar")
 		.attr("width", 0)
 		.attr("height", model.m.barHeight)
 		.attr("x", model.m.margins.left + 1)
@@ -77,15 +77,19 @@ app.CumulativeGraph = (function() {
 		model.barsUpdate = model.bars
 		.attr("height", model.m.barHeight)
 		.attr("x", model.m.margins.left + 1)
+		.attr("fill", "teal")
+		.transition().duration(1000)
 		.attr("y", function(d) {
 			return model.scales.y(d.key) + model.m.margins.top + model.m.spacing;
-		}).attr("fill", "teal")
-		.transition().duration(1000)
+		})
 		.attr("width", function(d) {
 			return model.scales.x(d.values) + 1;
 		})
 		.attr("stroke", "none")
 		;
+
+		//remove
+		model.barsExit = model.bars.exit().remove();
 	}
 
 	var update = function (data) {
@@ -131,17 +135,6 @@ app.CumulativeGraph = (function() {
 		model.data.yearOriginMap = yearOriginMap;
 		model.data.yearArray = Object.keys(yearOriginMap);
 		model.data.yearMap = yearOriginMap;
-		//dropdown menu
-		model.dropdown = d3.select("#dropdown");
-		model.options = model.dropdown
-		.selectAll("option")
-		.data(model.data.yearArray).enter()
-		.append("xhtml:option").attr("value", function(d,i) {
-			return d;
-		}).text(function(d,i) {
-			return d;
-		})
-		;
 
 		createScalesAndAxes(model);
 		updateYear(model, '2005');
