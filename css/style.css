@@ -1,0 +1,80 @@
+#main {
+    display: inline-block;
+    position: absolute;
+    top: -45%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 85%;
+    height: 30%;
+    margin: auto;
+    background-color: none;
+    text-align: center;
+    padding: 10px;
+}
+
+#main2 {
+    display: inline-block;
+    position: absolute;
+    top: 45%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 85%;
+    height: 50%;
+    margin: auto;
+    background-color: none;
+    text-align: center;
+    padding: 10px;
+}
+
+#dropdown {
+    margin: 0;
+}
+
+.xaxis {
+    font: 10px sans-serif;
+}
+
+.xaxis path {
+  display: none;
+}
+
+.xaxis line {
+  shape-rendering: crispEdges;
+  stroke: #000;
+}
+
+.yaxis {
+    font: 10px sans-serif;
+}
+
+.yaxis path {
+  display: none;
+}
+
+.yaxis line {
+  shape-rendering: crispEdges;
+  stroke: #000;
+}
+
+body {
+    font-family: 'Inconsolata', serif;
+/*  text-align: 'center';
+*/}
+
+h1 {
+    margin:auto;
+    text-align: center;
+    font-family: 'Inconsolata', serif;
+
+}
+
+h2 {
+    margin:auto;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    text-align: center;
+    font-family: 'Inconsolata', serif;
+
+}
