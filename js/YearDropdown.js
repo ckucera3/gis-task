@@ -19,7 +19,7 @@ app.YearDropdown = (function() {
 		}).entries(data)
 		.map(function(d) {
 			return d.key;
-		})
+		}).reverse()
 		;
 
 		//dropdown menu

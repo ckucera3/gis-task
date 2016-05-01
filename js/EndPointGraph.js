@@ -81,7 +81,7 @@ app.EndPointGraph = (function() {
 			.attr("fill", model.scales.colors(i))
 			.transition().duration(1000)
 			.attr("y", function(d) {
-				return model.scales.y(d.key) + model.m.margins.top + model.m.interBarSpacing * i;
+				return model.scales.y(d.key) + model.m.margins.top + model.m.interBarSpacing * (i+1);
 			})
 			.attr("width", function(d) {
 				var val = d.values[model.data.topFiveCountries[i]];
@@ -102,7 +102,7 @@ app.EndPointGraph = (function() {
 			.attr("height", model.m.interBarHeight)
 			.attr("x", model.m.margins.left + 1)
 			.attr("y", function(d) {
-				return model.scales.y(d.key) + model.m.margins.top + model.m.interBarSpacing * i;
+				return model.scales.y(d.key) + model.m.margins.top + model.m.interBarSpacing * (i+1);
 			})
 			.attr("fill", model.scales.colors(i))
 			.transition().duration(1000)
@@ -169,17 +169,16 @@ app.EndPointGraph = (function() {
 			})
 		}).entries(data);
 
-		var originEndpointTotalMaps = [];
 		var yearMap = {};
 		var originArray = [];
-		originEndpointTotals.forEach(function(d) {
+		originEndpointTotals.forEach(function(d) {//
 			originArray = [];
-			d.values.forEach(function(d) {
+			d.values.forEach(function(d) {//
 				var obj = {};
 				obj.key = d.key;
 				obj.values = {};
 				obj.values[d.key] = d.values;
-				d.values.forEach(function(d) {
+				d.values.forEach(function(d) {//
 					obj.values[d.key] = d.values;
 				});
 				originArray.push(obj);
@@ -192,7 +191,7 @@ app.EndPointGraph = (function() {
 		 "Sweden", "Denmark"];
 
 		createScalesAndAxes(model);
-		updateYear(model, '2005');
+		updateYear(model, '2014');
 
 		var legendRectSize = 18;
 		var legendSpacing = 4;

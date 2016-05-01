@@ -13,8 +13,8 @@ function start (data) {
 	//initialize the first chart
 	endpointChart = app.EndPointGraph.initialize(base2);
 	endpointChart.update(data);
-	cumulativeChart = app.CumulativeGraph.initialize(base1);
-	cumulativeChart.update(data);
+	originChart = app.OriginGraph.initialize(base1);
+	originChart.update(data);
 	dropdown = app.YearDropdown.initialize(d3.select("#dropdown"),
-	 data, [endpointChart, cumulativeChart]);
+	 data, [endpointChart, originChart]);
 }

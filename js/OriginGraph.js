@@ -1,6 +1,6 @@
 var app = app || {};
 
-app.CumulativeGraph = (function() {
+app.OriginGraph = (function() {
 
 	var initialize = function (dom) {
 		var model = {
@@ -137,7 +137,7 @@ app.CumulativeGraph = (function() {
 		model.data.yearMap = yearOriginMap;
 
 		createScalesAndAxes(model);
-		updateYear(model, '2005');
+		updateYear(model, '2014');
 
 	}
 
